@@ -13,7 +13,7 @@ let mainWindow
 const electron = require('electron');
 const {ipcMain} = require('electron');
 const path = require('path');
-const wowrpc = require('./wowrpc');
+const sumorpc = require('./sumorpc');
 const config = require('./config');
 const Store = require('electron-store');
 const store = new Store();
@@ -24,10 +24,10 @@ const utils = require('electron-util');
 let homedir = process.env.HOME;
 if (process.platform === 'win32'){
     homedir = process.env.HOMEPATH; // back-compat
-    if (!fs.existsSync(path.join(homedir, 'Wownero')))
+    if (!fs.existsSync(path.join(homedir, 'Sumokoin')))
         homedir = process.env.USERPROFILE;
 }
-let wowdir = path.join(homedir, 'Wownero');
+let sumodir = path.join(homedir, 'Sumokoin');
 
 if (!fs.existsSync(wowdir)){
     console.log(`${wowdir} created`);
@@ -35,7 +35,7 @@ if (!fs.existsSync(wowdir)){
 }
 
 // WowRPC & cfg bootstrap
-let wallet = new wowrpc.WowRpc(wowdir);
+let wallet = new wowrpc.SumoRpc(wowdir);
 let cfg = new config.Config(wowdir);
 wallet._cli_daemon_address = cfg.data.node;
 
@@ -144,8 +144,8 @@ ipcMain.on('rpc_get_embedded_version', (event) => {
 
 });
 
-ipcMain.on('rpc_get_wowdir', (event, data) => {
-    event.sender.send('rpc_get_wowdir', wowdir);
+ipcMain.on('rpc_get_sumodir', (event, data) => {
+    event.sender.send('rpc_get_sumodir', sumodir);
 });
 
 ipcMain.on('rpc_cfg_set_node', (event, node) => {
@@ -200,7 +200,7 @@ function resetWallet(){
         wallet._setState(0);
     }
 
-    wallet = new wowrpc.WowRpc(wowdir);
+    wallet = new sumorpc.SumoRpc(sumodir);
     wallet._cli_daemon_address = cfg.data.node;
 }
 
@@ -253,7 +253,7 @@ ipcMain.on('rpc_open_wallet', (event, data) => {
             type: 'error',
             title: 'Wallet error',
             buttons: ['OK'],
-            message: `WOW!\n\n${msg}\n\nABORT ABORT ABORT! AGHGHGHGGHGHGHGHGH!!!`
+            message: `ERROR!\n\n${msg}\n\nWALLET ERROR!!!`
         });
         mainWindow.webContents.send('rpc_wallet_closed');
     }
