@@ -47,8 +47,7 @@
                 <div class="form-check" style="margin-top:14px;">
                     <label class="form-check-label">
                         <input v-on:click="toggleValid" class="form-check-input" type="checkbox" value="" id="tos_checkbox">
-                        This is an useless checkbox. You are required to tick it. Sucks, but there are worse things in life.
-
+                        Tick this checkbox to proceed.
                     </label>
                 </div>
             </div>
