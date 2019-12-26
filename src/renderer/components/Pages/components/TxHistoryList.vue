@@ -26,7 +26,7 @@
                         </span>
 
                         <br>
-                        <a style="font-family: sans-serif;" target="_blank" :href="`https://explore.wownero.com/tx/${tx.id}`">{{tx.id.substring(0, 20)}}...</a>
+                        <a style="font-family: sans-serif;" target="_blank" :href="`https://explorer.sumokoin.com/tx/${tx.id}`">{{tx.id.substring(0, 20)}}...</a>
                         <a style="margin-left:4px;" href="#"></a>
 
                         <span class="amount" :data-in="tx.in">
