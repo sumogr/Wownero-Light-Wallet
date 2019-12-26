@@ -6,19 +6,19 @@ let textEncoding = require('text-encoding');
 let TextDecoder = textEncoding.TextDecoder;
 import { platform, cliPath } from './binaries';
 
-export class WowRpc {
+export class SumoRpc {
     // ps -ef | grep defunct | grep -v grep | cut -b8-20 | xargs kill -9
-    constructor(wowdir, cli_path) {
-        this._wowdir = wowdir;
+    constructor(sumodir, cli_path) {
+        this._sumodir = sumodir;
         this._cli_process = null;
-        this._cli_log_path = path.join(os.tmpdir(), 'wowlight-wallet.log');
+        this._cli_log_path = path.join(os.tmpdir(), 'sumolight-wallet.log');
         if(!cli_path) {
             this._cli_path = cliPath;
         } else {
             this._cli_path = cli_path;
         }
 
-        console.log('WowRPC bin path: ' + this._cli_path);
+        console.log('SumoRPC bin path: ' + this._cli_path);
 
         this._wallet_path = '';
         this._cli_wallet_password = '';
@@ -34,7 +34,7 @@ export class WowRpc {
 
         // this will hold the newly created wallet details: address, view_key, seed, password
         this._create_wallet = {};
-        this._create_wallet_tmp_path = path.join(os.tmpdir(), 'wowtmp');
+        this._create_wallet_tmp_path = path.join(os.tmpdir(), 'sumotmp');
 
         this._cli_args_default = [
             '--use-english-language-names',
@@ -68,10 +68,10 @@ export class WowRpc {
 
     commitWallet(wallet_name) {
         // moves `/tmp/tmpwallet to destination`
-        console.log(`moving into: ${this._wowdir}/${wallet_name}`);
+        console.log(`moving into: ${this._sumodir}/${wallet_name}`);
         let cmd = process.platform === 'win32' ? 'move' : 'mv';
 
-        let dest_path = path.join(this._wowdir, wallet_name);
+        let dest_path = path.join(this._sumodir, wallet_name);
         console.log(dest_path);
         console.log(`${cmd} "${this._create_wallet_tmp_path}" "${dest_path}"`);
 
@@ -80,8 +80,8 @@ export class WowRpc {
 
         console.log(`[CMD] ${cmd_wcache}`);
         console.log(`[CMD] ${cmd_wkeys}`);
-        let wow = childProcess.execSync(cmd_wcache);
-        let wow2 = childProcess.execSync(cmd_wkeys);
+        let sumo = childProcess.execSync(cmd_wcache);
+        let sumo2 = childProcess.execSync(cmd_wkeys);
         return 1;
     }
 
@@ -156,7 +156,7 @@ export class WowRpc {
             let pushed = 0;
             while ((matches = re_transfers_in.exec(data)) !== null) {
                 let blockheight = matches[1];
-                if(WowRpc.isNumeric(blockheight)){
+                if(SumoRpc.isNumeric(blockheight)){
                     blockheight = parseInt(blockheight);
                 }
 
@@ -176,13 +176,13 @@ export class WowRpc {
 
             if(pushed > 0){
                 this.log(`discovered ${pushed} tx's`);
-                this.wowCall(this.onWalletTxsChanged, this._cli_txs);
+                this.sumoCall(this.onWalletTxsChanged, this._cli_txs);
             }
             return;
         }
 
         // detect cli startup
-        if(data.match(/This is the command line wownero wallet./)){
+        if(data.match(/This is the command line sumokoin wallet./)){
             this._setState(1);
         }
 
@@ -260,7 +260,7 @@ export class WowRpc {
         if(re_height_refresh_data){
             let from = re_height_refresh_data[1];
             let to = re_height_refresh_data[2];
-            this.wowCall(this.onHeightRefresh, {'from': from, 'to': to});
+            this.sumoCall(this.onHeightRefresh, {'from': from, 'to': to});
         }
     }
 
@@ -269,8 +269,8 @@ export class WowRpc {
         this._buffer += data;
 
         if(data === `Logging to ${this._cli_log_path}\n`){
-            this._cli_process.stdin.write(`wow\n`);
-            this._cli_process.stdin.write(`wow\n`);  // ?? :D
+            this._cli_process.stdin.write(`sumo\n`);
+            this._cli_process.stdin.write(`sumo\n`);  // ?? :D
         }
 
         // if(data.match(/List of available languages for your wallet's seed:/)){
@@ -312,15 +312,15 @@ export class WowRpc {
         }
     }
 
-    createWallet(wowdir, name, password){
+    createWallet(sumodir, name, password){
         try { fs.unlinkSync(`${this._create_wallet_tmp_path}`); }
         catch(err) { }
         try { fs.unlinkSync(`${this._create_wallet_tmp_path}.keys`); }
         catch(err) { }
 
-        let wowdir_name = path.join(wowdir, name);
-        if(fs.existsSync(`${wowdir_name}`) || fs.existsSync(`${wowdir_name}.keys`)){
-            this.onCreateWalletFinished(`Wallet already exists: ${wowdir_name}`);
+        let sumodir_name = path.join(sumodir, name);
+        if(fs.existsSync(`${sumodir_name}`) || fs.existsSync(`${sumodir_name}.keys`)){
+            this.onCreateWalletFinished(`Wallet already exists: ${sumodir_name}`);
             return;
         }
 
@@ -371,7 +371,7 @@ export class WowRpc {
 
         if(typeof this._cli_daemon_address == 'undefined'){
             // this is some truly stupid hacky shit
-            this._cli_daemon_address = 'node.wowne.ro:34568';
+            this._cli_daemon_address = '68.183.134.212:19734';
         }
 
         let cli_args = ['--daemon-address', this._cli_daemon_address];
@@ -433,14 +433,14 @@ export class WowRpc {
         this.log(`New balance: ${balance}`);
         this._cli_balance = parseFloat(balance);
 
-        this.wowCall(this.onWalletBalanceChanged, this._cli_balance);
+        this.sumoCall(this.onWalletBalanceChanged, this._cli_balance);
     }
 
     _setBalanceUnlocked(balance){
         this.log(`New balance unlocked: ${balance}`);
         this._cli_balance_unlocked = parseFloat(balance);
 
-        this.wowCall(this.onWalletBalanceUnlockedChanged, this._cli_balance_unlocked);
+        this.sumoCall(this.onWalletBalanceUnlockedChanged, this._cli_balance_unlocked);
     }
 
     _setState(state){
@@ -472,7 +472,7 @@ export class WowRpc {
         console.log('\x1b[36m%s\x1b[0m', msg);
     }
 
-    wowCall(fn, data){
+    sumoCall(fn, data){
         // ¯\_(ツ)_/¯
         if(fn != null){
             fn(data);
