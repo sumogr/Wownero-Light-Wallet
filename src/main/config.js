@@ -2,8 +2,8 @@ const fs = require('fs');
 
 
 export class Config {
-    constructor(wowdir) {
-        this._path_cfg = `${wowdir}/wowlight.json`;
+    constructor(sumodir) {
+        this._path_cfg = `${sumodir}/sumolight.json`;
         this.create();
         this.data = this.load();
     }
@@ -24,11 +24,9 @@ export class Config {
         }
 
         let data = JSON.stringify({
-            "node": "node.wowne.ro:34568",
+            "node": "68.183.134.212:19734",
             "nodes": [
-                {"address": "node.wowne.ro:34568", "location": "New Jersey, United States", "region": "US"},
-                {"address": "wow.aluisyo.network:34568", "location": "The Moon", "region": "Moon"},
-                {"address": "localhost:34568", 'location': "", "region": "*"}
+                {"address": "134.209.109.190:19734", "location": "Singapore", "region": "Singapore"}
             ],
             "wallets": []
         });
