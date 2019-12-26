@@ -137,7 +137,7 @@
             setTimeout(this.showMatrix, 200);
 
             // get wowdir
-            ipcRenderer.send('rpc_get_wowdir');
+            ipcRenderer.send('rpc_get_sumodir');
 
             jQuery(document).ready(function(){
                 let q = document.getElementById('q');
