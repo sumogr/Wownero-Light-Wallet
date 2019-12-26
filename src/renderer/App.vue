@@ -47,7 +47,7 @@
 
 <script>
     export default {
-        name: 'wowlight',
+        name: 'sumolight',
         computed: {
             height_from() {
                 return this.$store.getters.height_from;
@@ -134,7 +134,7 @@
             }
         },
         mounted () {
-            ipcRenderer.send('rpc_get_wowdir');
+            ipcRenderer.send('rpc_get_sumodir');
             ipcRenderer.send('rpc_get_cfg');
 
             Array.prototype.insert = function ( index, item ) {
