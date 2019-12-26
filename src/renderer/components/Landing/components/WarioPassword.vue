@@ -21,7 +21,7 @@
 
 <script>
     export default {
-        name: "WarioPassword",
+        name: "SumokoinPassword",
         computed: {
             wallet() {
                 return this.$store.getters.wallet;
