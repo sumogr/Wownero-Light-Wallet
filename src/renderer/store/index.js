@@ -23,7 +23,7 @@ export default new Vuex.Store({
         password_box: {
             'message': ''
         },
-        usd_rate: 0,  // per 1000 WOW
+        usd_rate: 0,  // per 1000 SUMO
         wallet: {
             'path': '',
             'txs': [],
