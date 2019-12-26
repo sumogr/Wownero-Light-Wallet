@@ -16,6 +16,6 @@ export default () => {
         case 'win32':
             return 'win';
         case 'templeos':
-            return 'wow';
+            return 'sumo';
     }
 };
