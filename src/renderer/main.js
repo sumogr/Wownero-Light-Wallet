@@ -32,7 +32,7 @@ let app = new Vue({
             self = this;
         });
 
-        this.$electron.ipcRenderer.on('rpc_get_wowdir', (event, data) => {
+        this.$electron.ipcRenderer.on('rpc_get_sumodir', (event, data) => {
             this.$store.commit('addWalletDir', data);
         });
 
