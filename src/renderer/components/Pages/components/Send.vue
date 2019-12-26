@@ -54,19 +54,7 @@
             return {
                 'error': '',
                 'messages_sending_tx': [
-                    "This could take a while. Or not. Who knows? It might even give you an error.",
-                    "Call your local bank if this is taking too long.",
-                    "inb4 F5-spamming the block explorer.",
-                    "a^2 + b^2 = c^2. Quick maths.",
-                    "Draining wallet in favor of hookers and blow.",
-                    "Dear blockchain, please accept this transaction as formal notification that I want to transfer some WOW. Apologies for the inconvenience.",
-                    "Currently transferring magic internet money.",
-                    "\"Oh, that was a darknet market? Must've filled out the wrong address!\"",
-                    "You'll never get rich by spending WOW!",
-                    "PRIVMSG wowario wen lightning network?\\r\\n",
-                    "Thank you for using WOW. Please like and subscribe.",
-                    "Perl not involved in the creation of this transaction.",
-                    "zZzzZ.. Are we done yet?"
+                    "This could take a while."
                 ]
             }
         },
@@ -123,7 +111,7 @@
             validate(){
                 this.error = '';
                 let form = jQuery('#sendForm');
-                let regexp_address = /([S|W][o|W][a-zA-Z0-9]{95})|(So[a-zA-Z0-9]{106})/g;
+                let regexp_address = /(Sumo[on][1-9A-HJ-NP-Za-km-z]{94})|(Sumi[1-9A-HJ-NP-Za-km-z]{106})|(Subo[1-9A-HJ-NP-Za-km-z]{94})/g;
                 let address = form.find('textarea.address').val().trim();
                 let amount = form.find('input.amount').val().trim();
                 let usd = jQuery('form#sendForm .amount label small');
@@ -133,19 +121,19 @@
                 }
 
                 if(amount.startsWith('.') || amount.endsWith('.')) {
-                    this.error = 'Invalid WOW amount'
+                    this.error = 'Invalid SUMO amount'
                     usd.html('');
                     return invalid();
                 }
 
                 if((amount.split('.').length - 1) > 1){
-                    this.error = 'Invalid WOW amount';
+                    this.error = 'Invalid SUMO amount';
                     usd.html('');
                     return invalid();
                 }
 
                 if((amount === 0)){
-                    //this.error = 'Invalid WOW amount';
+                    //this.error = 'Invalid SUMO amount';
                     usd.html('');
                     return invalid();
                 }
